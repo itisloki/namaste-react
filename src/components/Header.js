@@ -1,7 +1,13 @@
+import { useContext } from "react";
 import { CART_LOGO, LOGO_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+    const { loggedInUser } = useContext(UserContext);
+
+    const cartItems = useSelector((store) => store.cart.items);
     return(
         <div className="flex justify-between">
             <div className="logo-container">
@@ -23,10 +29,15 @@ const Header = () => {
                     <li className="px-4">
                         <Link className="link-no-style" to = "/grocery">Grocery</Link>
                     </li>
-                    <li className="flex items-center">
-                        <h2>Cart</h2>
-                        <img className="w-5 h-5" src={CART_LOGO} />
+                    <li>
+                        <Link className="link-no-style flex items-center" to="/cart">
+                            <img className="w-5 h-5" src={CART_LOGO} />
+                            <h2 className="font-bold ml-1">Cart - ({cartItems.length} items)</h2>
+                        </Link>
                     </li>
+                    {/* <li>
+                        <h2>{loggedInUser}</h2>
+                    </li> */}
                 </ul>
             </div>
         </div>

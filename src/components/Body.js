@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
-import RestaurantCard from "./RestaurantCard";
+import { useState, useEffect, useContext } from 'react';
+import RestaurantCard, { WithPromotedLabel } from "./RestaurantCard";
 import { SWIGGY_URL } from '../utils/constants';
 import Shimmer from './Shimmer';
 import { Link } from 'react-router-dom';
 import useOnlineStatus from '../utils/useOnlineStatus';
+import UserContext from '../utils/UserContext';
 
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurant, setFilteredRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const RestaurantCardPromoted = WithPromotedLabel(RestaurantCard);
+
+  const { loggedInUser, setUserName } = useContext(UserContext);
   
   useEffect(() => {
     fetchData();
@@ -64,15 +68,27 @@ const Body = () => {
                     Top Rated Restaurant
                 </button>
                 </div>
+
+                <div className="m-4 p-4 flex items-center">
+                <input
+                className='border border-black'
+                onChange={(e) => setUserName(e.target.value)}
+                value={loggedInUser}
+                />
+                </div>
             </div>
             <div className="flex flex-wrap">
                 {
-                  filteredRestaurant.map((item) => <Link
-                  key={item?.info?.id}
-                  to={"/restaurants/" + item?.info?.id}
+                  filteredRestaurant.map((restaurant) => <Link
+                  key={restaurant?.info?.id}
+                  to={"/restaurants/" + restaurant?.info?.id}
                   className="link-no-style"
                   >
-                  <RestaurantCard resData={item}/>
+                    {
+                      restaurant?.info?.avgRating > 4.3
+                      ? (<RestaurantCardPromoted resData={restaurant} />)
+                      : (<RestaurantCard resData={restaurant}/>)
+                    }
                   </Link>)
                 }
             </div>
