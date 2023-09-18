@@ -1,7 +1,8 @@
 import { CDN_URL, STAR_LOGO } from "../utils/constants";
 
-const RestaurantCard = ({ resData }) => {
-    const {name, cloudinaryImageId, avgRating, cuisines, sla } = resData.info;
+const RestaurantCard = (props) => {
+    const { resData } = props;
+    const {name, cloudinaryImageId, avgRating, cuisines, sla } = resData;
     return(
         <div className="m-4 p-4 w-[200px] bg-gray-100 rounded-lg hover:bg-gray-200 ">
              <img alt="res-logo" className="rounded-lg"
@@ -12,7 +13,7 @@ const RestaurantCard = ({ resData }) => {
                 <img alt="star-logo" className="w-[18]" src={STAR_LOGO} />
                 <h4 className="ml-1">{avgRating}</h4>
             </div>
-            <h4 className="cusines">{cuisines.join(', ')}</h4>
+            <h4>{cuisines.join(", ")}</h4>
             <h4 className="del-time">{sla.deliveryTime} mins</h4>
         </div>
     )

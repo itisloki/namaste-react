@@ -86,8 +86,8 @@ const Body = () => {
                   >
                     {
                       restaurant?.info?.avgRating > 4.3
-                      ? (<RestaurantCardPromoted resData={restaurant} />)
-                      : (<RestaurantCard resData={restaurant}/>)
+                      ? (<RestaurantCardPromoted resData={restaurant?.info} />)
+                      : (<RestaurantCard resData={restaurant?.info}/>)
                     }
                   </Link>)
                 }
